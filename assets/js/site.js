@@ -40,10 +40,34 @@ function productCard(p){
 }
 function navSetup(){
   const btn=$q("#mobileToggle"), links=$q("#navLinks");
-  if(btn&&links) btn.addEventListener("click",()=>links.classList.toggle("open"));
+  const setMenu=(open)=>{
+    if(!btn||!links)return;
+    links.classList.toggle("open",open);
+    btn.setAttribute("aria-expanded",String(open));
+    const icon=$q(".mobile-toggle-icon",btn);
+    if(icon) icon.textContent=open?"×":"☰";
+  };
+  if(btn&&links){
+    btn.addEventListener("click",()=>setMenu(!links.classList.contains("open")));
+    $qa("a",links).forEach(a=>a.addEventListener("click",()=>setMenu(false)));
+    document.addEventListener("click",e=>{
+      if(!links.classList.contains("open"))return;
+      if(!e.target.closest(".navbar"))setMenu(false);
+    });
+    document.addEventListener("keydown",e=>{if(e.key==="Escape")setMenu(false)});
+  }
+
+  // Highlight the current page.
+  const file=(location.pathname.split("/").pop()||"index.html").toLowerCase();
+  $qa("#navLinks a").forEach(a=>{
+    const href=(a.getAttribute("href")||"").split("?")[0].toLowerCase();
+    if((file==="index.html"&&href==="index.html") || href===file) a.classList.add("active");
+  });
+
   const hs=$q("#siteSearch"), hb=$q("#siteSearchButton");
   const go=()=>{if(hs&&hs.value.trim()) location.href=`products.html?q=${encodeURIComponent(hs.value.trim())}`};
-  hb?.addEventListener("click",go);hs?.addEventListener("keydown",e=>{if(e.key==="Enter")go()});
+  hb?.addEventListener("click",go);
+  hs?.addEventListener("keydown",e=>{if(e.key==="Enter")go()});
 }
 function initHome(){
   const featured=$q("#featuredProducts");
@@ -75,28 +99,156 @@ function initHome(){
     $qa("[data-category]",categoryGrid).forEach(el=>el.addEventListener("click",()=>location.href=`products.html?category=${encodeURIComponent(el.dataset.category)}`));
   }
 
-  const slideDefs=[
-    {kind:"store",kicker:"AB Electronics Haier Store",title:"Visit our Haier showroom in Multan",description:"See Haier refrigerators, ACs, washing machines, TVs and more in person on Old Shuja Abad Road.",image:"assets/shop/storefront-main.webp",label:"AB Electronics · Multan",primaryText:"See Showroom",primaryHref:"about.html",secondaryText:"Get Directions",secondaryHref:"contact.html",fit:"cover"},
-    {category:"Air Conditioners",kicker:"Haier Air Conditioners",title:"Cooling options for Multan summers",description:"Browse current inverter, T3 and smart Haier AC models, then ask the store for today's price and stock.",label:"Air Conditioners",primaryText:"Browse ACs",fit:"contain"},
-    {category:"Refrigerators",kicker:"Haier Refrigerators",title:"Refrigerators for different homes",description:"Explore current Haier refrigerator models — from everyday inverter options to larger multi-door designs.",label:"Refrigerators",primaryText:"Browse Refrigerators",fit:"contain"},
-    {category:"Washing Machines",kicker:"Haier Laundry",title:"Washing machines built for everyday use",description:"Compare top-load, front-load and washer-dryer models in the current Haier Pakistan range.",label:"Washing Machines",primaryText:"Browse Laundry",fit:"contain"},
-    {category:"LED TVs",kicker:"Haier TVs",title:"Google TV, QLED and Mini LED models",description:"See current Haier television models, then open a product page for its exact model details.",label:"LED TVs",primaryText:"Browse TVs",fit:"contain"}
+  // HERO RULE:
+  // Only AB Electronics showroom/store photos supplied by the user.
+  // Product cutout images remain reserved for catalog/product cards.
+  const slides=[
+    {
+      kicker:"AB Electronics Haier Store",
+      title:"Visit our Haier showroom in Multan",
+      description:"See the real AB Electronics store on Old Shuja Abad Road and explore Haier appliances in person.",
+      image:"assets/shop/storefront-main.webp",
+      label:"AB Electronics · Haier Store",
+      primaryText:"See Showroom",
+      primaryHref:"about.html",
+      secondaryText:"Get Directions",
+      secondaryHref:"contact.html",
+      fit:"cover"
+    },
+    {
+      kicker:"Haier Air Conditioners",
+      title:"See the AC range on display",
+      description:"Compare Haier inverter and T3 air conditioners in the showroom, then ask us for today's price and stock.",
+      image:"assets/shop/ac-wall.webp",
+      label:"Haier AC Display · AB Electronics",
+      primaryText:"Browse ACs",
+      primaryHref:"products.html?category=Air%20Conditioners",
+      secondaryText:"Ask on WhatsApp",
+      secondaryHref:"https://wa.me/923077568769?text=Hi%20AB%20Electronics%2C%20please%20share%20current%20Haier%20AC%20prices%20and%20availability.",
+      fit:"cover"
+    },
+    {
+      kicker:"Haier Refrigerators",
+      title:"Compare refrigerators in-store",
+      description:"See different Haier refrigerator sizes and finishes together before choosing the model that suits your home.",
+      image:"assets/shop/fridge-row.webp",
+      label:"Haier Refrigerator Range · Showroom",
+      primaryText:"Browse Refrigerators",
+      primaryHref:"products.html?category=Refrigerators",
+      secondaryText:"Ask on WhatsApp",
+      secondaryHref:"https://wa.me/923077568769?text=Hi%20AB%20Electronics%2C%20please%20share%20current%20Haier%20refrigerator%20prices%20and%20availability.",
+      fit:"cover"
+    },
+    {
+      kicker:"Haier Washing Machines",
+      title:"Explore the laundry range",
+      description:"View Haier washing machines in the showroom and compare top-load, front-load and everyday laundry options.",
+      image:"assets/shop/washer-row.webp",
+      label:"Haier Washing Machines · Showroom",
+      primaryText:"Browse Laundry",
+      primaryHref:"products.html?category=Washing%20Machines",
+      secondaryText:"Ask on WhatsApp",
+      secondaryHref:"https://wa.me/923077568769?text=Hi%20AB%20Electronics%2C%20please%20share%20current%20Haier%20washing%20machine%20prices%20and%20availability.",
+      fit:"cover"
+    },
+    {
+      kicker:"Haier LED TVs",
+      title:"See TV sizes before you decide",
+      description:"Visit the TV display wall, compare screen sizes in person and then explore current Haier TV models online.",
+      image:"assets/shop/tv-wall.webp",
+      label:"Haier LED TV Display · Showroom",
+      primaryText:"Browse TVs",
+      primaryHref:"products.html?category=LED%20TVs",
+      secondaryText:"Ask on WhatsApp",
+      secondaryHref:"https://wa.me/923077568769?text=Hi%20AB%20Electronics%2C%20please%20share%20current%20Haier%20TV%20prices%20and%20availability.",
+      fit:"cover"
+    },
+    {
+      kicker:"Haier Kitchen Appliances",
+      title:"Microwaves and kitchen appliances",
+      description:"See Haier microwaves and kitchen appliances on display and contact the store for the latest availability.",
+      image:"assets/shop/microwave-wall.webp",
+      label:"Haier Kitchen Display · AB Electronics",
+      primaryText:"Browse Microwaves",
+      primaryHref:"products.html?category=Microwave%20Ovens",
+      secondaryText:"Ask on WhatsApp",
+      secondaryHref:"https://wa.me/923077568769?text=Hi%20AB%20Electronics%2C%20please%20share%20current%20Haier%20microwave%20and%20kitchen%20appliance%20prices.",
+      fit:"cover"
+    }
   ];
-  const slides=slideDefs.map(def=>{
-    if(def.kind==="store") return def;
-    const p=PRODUCTS.find(x=>x.category===def.category);
-    return {...def,image:p?.image||"assets/shop/showroom-wide.webp",primaryHref:`products.html?category=${encodeURIComponent(def.category)}`,secondaryText:"Ask Price",secondaryHref:waLink(p)};
-  });
-  const image=$q("#heroSlideImage"), kicker=$q("#heroKicker"), title=$q("#heroTitle"), desc=$q("#heroDescription"), label=$q("#heroMediaLabel"), primary=$q("#heroPrimary"), secondary=$q("#heroSecondary"), media=$q("#heroSlideMedia"), dots=$q("#heroDots");
+  const image=$q("#heroSlideImage"), kicker=$q("#heroKicker"), title=$q("#heroTitle"), desc=$q("#heroDescription"), label=$q("#heroMediaLabel"), primary=$q("#heroPrimary"), secondary=$q("#heroSecondary"), media=$q("#heroSlideMedia"), dots=$q("#heroDots"), status=$q("#heroSlideStatus"), shell=$q(".hero-slider-shell");
   if(image&&slides.length){
-    let current=0,timer;
+    let current=0,timer=null,touchStartX=0,touchStartY=0;
     dots.innerHTML=slides.map((_,i)=>`<button class="hero-dot${i===0?' active':''}" type="button" data-slide="${i}" aria-label="Go to slide ${i+1}"></button>`).join("");
+
     const show=i=>{
-      current=(i+slides.length)%slides.length;const s=slides[current];media.classList.add("changing");
-      setTimeout(()=>{image.src=s.image;image.alt=s.title;image.className=s.fit||"contain";kicker.textContent=s.kicker;title.textContent=s.title;desc.textContent=s.description;label.textContent=s.label;primary.textContent=s.primaryText;primary.href=s.primaryHref;secondary.textContent=s.secondaryText||"WhatsApp";secondary.href=s.secondaryHref||"https://wa.me/923077568769";secondary.target=(secondary.href.startsWith("http")?"_blank":"_self");$qa(".hero-dot",dots).forEach((d,idx)=>d.classList.toggle("active",idx===current));media.classList.remove("changing")},230);
+      current=(i+slides.length)%slides.length;
+      const s=slides[current];
+      media.classList.add("changing");
+      setTimeout(()=>{
+        image.src=s.image;
+        image.alt=s.title;
+        image.className=s.fit||"cover";
+        kicker.textContent=s.kicker;
+        title.textContent=s.title;
+        desc.textContent=s.description;
+        label.textContent=s.label;
+        primary.textContent=s.primaryText;
+        primary.href=s.primaryHref;
+        secondary.textContent=s.secondaryText||"WhatsApp";
+        secondary.href=s.secondaryHref||"https://wa.me/923077568769";
+        secondary.target=secondary.href.startsWith("http")?"_blank":"_self";
+        secondary.rel=secondary.target==="_blank"?"noreferrer":"";
+        $qa(".hero-dot",dots).forEach((d,idx)=>d.classList.toggle("active",idx===current));
+        if(status) status.textContent=`${current+1} / ${slides.length}`;
+        media.classList.remove("changing");
+      },180);
     };
-    const restart=()=>{clearInterval(timer);timer=setInterval(()=>show(current+1),5200)};
-    $q("#heroPrev")?.addEventListener("click",()=>{show(current-1);restart()});$q("#heroNext")?.addEventListener("click",()=>{show(current+1);restart()});dots.addEventListener("click",e=>{const b=e.target.closest("[data-slide]");if(!b)return;show(Number(b.dataset.slide));restart()});restart();
+
+    const stop=()=>{if(timer){clearInterval(timer);timer=null}};
+    const start=()=>{
+      stop();
+      if(!document.hidden && !window.matchMedia("(prefers-reduced-motion: reduce)").matches){
+        timer=setInterval(()=>show(current+1),5000);
+      }
+    };
+    const next=()=>{show(current+1);start()};
+    const prev=()=>{show(current-1);start()};
+
+    $q("#heroPrev")?.addEventListener("click",prev);
+    $q("#heroNext")?.addEventListener("click",next);
+    dots.addEventListener("click",e=>{
+      const b=e.target.closest("[data-slide]");
+      if(!b)return;
+      show(Number(b.dataset.slide));
+      start();
+    });
+
+    // Touch swipe for iOS + Android.
+    media.addEventListener("touchstart",e=>{
+      const t=e.changedTouches[0];
+      touchStartX=t.clientX;
+      touchStartY=t.clientY;
+      stop();
+    },{passive:true});
+    media.addEventListener("touchend",e=>{
+      const t=e.changedTouches[0];
+      const dx=t.clientX-touchStartX;
+      const dy=t.clientY-touchStartY;
+      if(Math.abs(dx)>48 && Math.abs(dx)>Math.abs(dy)*1.25){
+        dx<0?next():prev();
+      }else{
+        start();
+      }
+    },{passive:true});
+
+    // Pause while a desktop user is interacting.
+    shell?.addEventListener("mouseenter",stop);
+    shell?.addEventListener("mouseleave",start);
+    document.addEventListener("visibilitychange",()=>document.hidden?stop():start());
+
+    show(0);
+    start();
   }
 
   const observer=new IntersectionObserver(entries=>entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add("visible");observer.unobserve(entry.target)}}),{threshold:.12});
