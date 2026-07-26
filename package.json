@@ -1,0 +1,12 @@
+{
+  "name": "ab-electronics-haier-store",
+  "private": true,
+  "version": "3.0.0",
+  "type": "module",
+  "scripts": {
+    "sync:haier": "node scripts/sync-haier-catalog.mjs"
+  },
+  "devDependencies": {
+    "playwright": "^1.54.2"
+  }
+}
