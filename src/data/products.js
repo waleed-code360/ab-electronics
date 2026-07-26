@@ -1,10 +1,4 @@
-/*
-  IMPORTANT:
-  - Models below were selected from the current Haier Pakistan catalog.
-  - Product page URLs point to haier.com/pk.
-  - `price` is intentionally null until an exact current PKR price is verified
-    from Haier Mall. Do not guess or copy a random retailer's price.
-*/
+const asset = (path) => `${import.meta.env.BASE_URL}${path.replace(/^\/+/, '')}`
 
 export const products = [
   {
@@ -13,10 +7,9 @@ export const products = [
     title: 'Twin Inverter IoT Refrigerator',
     model: 'HRF-458TIF',
     price: null,
-    image: 'https://image.haier.com/pk/refrigerators/W020260422545513867417_60.jpg',
+    image: asset('products/hrf-458tif'),
     source: 'https://www.haier.com/pk/refrigerators/hrf-458tif.shtml',
     tags: ['Twin Inverter', 'IoT', 'No Frost'],
-    note: 'Haier Pakistan catalog model',
   },
   {
     id: 'hsu-14hftex',
@@ -24,10 +17,9 @@ export const products = [
     title: 'T3 Plus Inverter AC',
     model: 'HSU-14HFTEX/013WDC(OW)-T3 Plus',
     price: null,
-    image: 'https://image.haier.com/pk/air-conditioners/W020260403690235466110_60.png',
+    image: asset('products/hsu-14hftex'),
     source: 'https://www.haier.com/pk/air-conditioners/hsu-14hftex013wdc-ow--t3plus.shtml',
-    tags: ['1 Ton', 'T3 Compressor', 'Wi‑Fi'],
-    note: 'Haier Pakistan catalog model',
+    tags: ['T3 Plus', 'R32', 'Instant Cooling'],
   },
   {
     id: 'hwm-100-316',
@@ -35,10 +27,9 @@ export const products = [
     title: 'Series Top Loading Washer',
     model: 'HWM 100-316',
     price: null,
-    image: 'https://image.haier.com/pk/washing-machines/W020250306606992156842_60.jpg',
+    image: asset('products/hwm-100-316'),
     source: 'https://www.haier.com/pk/washing-machines/hwm100-316.shtml',
     tags: ['10 kg', 'Fresh Air', 'Pillow Drum'],
-    note: 'Haier Pakistan catalog model',
   },
   {
     id: '75m90',
@@ -46,10 +37,9 @@ export const products = [
     title: '75" QD Mini LED Google TV',
     model: '75M90',
     price: null,
-    image: 'https://image.haier.com/pk/tvs/W020250802560458649545_60.jpg',
+    image: asset('products/75m90'),
     source: 'https://www.haier.com/pk/tvs/75m90.shtml',
-    tags: ['Mini LED', 'Google TV', '144Hz'],
-    note: 'Haier Pakistan catalog model',
+    tags: ['QD Mini LED', 'Google TV', '75 inch'],
   },
   {
     id: 'hdf-385ig',
@@ -57,10 +47,9 @@ export const products = [
     title: 'Inverter Grey Deep Freezer',
     model: 'HDF-385IG',
     price: null,
-    image: 'https://image.haier.com/pk/freezers/W020241003063831398520_60.jpg',
+    image: asset('products/hdf-385ig'),
     source: 'https://www.haier.com/pk/freezers/hdf-385ig.shtml',
-    tags: ['385 L', 'Inverter', '-28°C'],
-    note: 'Haier Pakistan catalog model',
+    tags: ['385 L', 'Inverter', 'Deep Freezer'],
   },
   {
     id: 'hmw-30afs',
@@ -68,10 +57,9 @@ export const products = [
     title: 'Air Fryer Series Microwave',
     model: 'HMW-30AFS',
     price: null,
-    image: 'https://image.haier.com/pk/microwaves/W020240813559970459620_60.jpg',
+    image: asset('products/hmw-30afs'),
     source: 'https://www.haier.com/pk/microwaves/hmw-30afs.shtml',
     tags: ['30 L', 'Air Fryer', 'Convection'],
-    note: 'Haier Pakistan catalog model',
   },
 ]
 

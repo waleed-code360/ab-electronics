@@ -1,7 +1,14 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { categories, products } from './data/products'
 
-const whatsappNumber = ''
+const whatsappNumber = '923077568769'
+const displayPhone = '0307 7568769'
+const telHref = 'tel:+923077568769'
+const shopAddress = 'AB Electronics Haier Store, Old Shuja Abad Rd, opposite PSO Pump, Shershah Town, Multan'
+const mapsQuery = encodeURIComponent(shopAddress)
+const mapsHref = `https://www.google.com/maps/search/?api=1&query=${mapsQuery}`
+const mapsEmbed = `https://www.google.com/maps?q=${mapsQuery}&output=embed`
+const shopAsset = (name) => `${import.meta.env.BASE_URL}shop/${name}`
 
 function Icon({ name, size = 20 }) {
   const icons = {
@@ -22,6 +29,7 @@ function Icon({ name, size = 20 }) {
 function App() {
   const [menuOpen, setMenuOpen] = useState(false)
   const [category, setCategory] = useState('All')
+  const [selectedProduct, setSelectedProduct] = useState(null)
   const heroRef = useRef(null)
 
   const visibleProducts = useMemo(() => {
@@ -72,9 +80,11 @@ function App() {
     }
   }, [])
 
-  const whatsappHref = whatsappNumber
-    ? `https://wa.me/${whatsappNumber}?text=${encodeURIComponent('Hi AB Electronics, I want to ask about a Haier appliance.')}`
-    : '#contact'
+  const whatsappHref = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent('Hi AB Electronics, I want to ask about a Haier appliance.')}`
+  const productWhatsApp = (product) =>
+    `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
+      `Hi AB Electronics, please share the current price and availability of ${product.model} (${product.title}).`
+    )}`
 
   const heroProduct = products[0]
   const secondProduct = products[1]
@@ -125,12 +135,12 @@ function App() {
             <div className="hero-info" data-reveal>
               <div className="hero-label"><span/> Official Pakistan catalog focus</div>
               <h1>
-                <span>AB Electronics</span>
-                <em>Haier, in store.</em>
+                <span>Haier appliances at</span>
+                <em>AB Electronics</em>
               </h1>
               <p>
-                A cleaner way to discover Haier refrigerators, air conditioners, washing machines,
-                TVs, freezers and everyday appliances before you visit the showroom.
+                Explore Haier appliances available through AB Electronics in Multan, then contact the store
+                directly for the latest price and stock.
               </p>
 
               <div className="hero-actions">
@@ -189,10 +199,10 @@ function App() {
             <div className="section-top" data-reveal>
               <div>
                 <p className="eyebrow">Shop by category</p>
-                <h2>Find the appliance first. Compare the model second.</h2>
+                <h2>Find the right appliance</h2>
               </div>
               <p>
-                The layout stays visual, but product discovery stays simple — exactly what an appliance store needs.
+                Browse Haier appliances by category, then open a product for details and current availability.
               </p>
             </div>
 
@@ -220,9 +230,9 @@ function App() {
             <div className="section-top range-heading" data-reveal>
               <div>
                 <p className="eyebrow">Haier Pakistan range</p>
-                <h2>Models worth putting in front of the customer.</h2>
+                <h2>Explore the Haier range</h2>
               </div>
-              <p>Exact PKR pricing stays separate until it is verified from the official Haier Pakistan / Haier Mall channel.</p>
+              <p>Prices change frequently, so every product connects directly to AB Electronics for the latest price and stock.</p>
             </div>
 
             <div className="filters" data-reveal>
@@ -234,22 +244,27 @@ function App() {
             <div className="products">
               {visibleProducts.map((p, i) => (
                 <article className="product" key={p.id} data-reveal style={{'--delay': `${i * 45}ms`}}>
-                  <div className="product-stage">
-                    <span className="product-badge">Pakistan model</span>
-                    <div className="product-orb"/>
-                    <img src={p.image} alt={`${p.title} ${p.model}`} loading="lazy"/>
-                    <a className="source-link" href={p.source} target="_blank" rel="noreferrer"><Icon name="arrow"/></a>
-                  </div>
-                  <div className="product-info">
-                    <span className="product-category">{p.category}</span>
-                    <h3>{p.title}</h3>
-                    <p className="product-model">{p.model}</p>
-                    <div className="chips">{p.tags.map(tag => <span key={tag}>{tag}</span>)}</div>
-                    <div className="product-price">
-                      <span>Price</span>
-                      <strong>{p.price ? `PKR ${p.price.toLocaleString('en-PK')}` : 'Confirm current price'}</strong>
+                  <button className="product-open" type="button" onClick={() => setSelectedProduct(p)} aria-label={`View details for ${p.model}`}>
+                    <div className="product-stage">
+                      <span className="product-badge">Pakistan model</span>
+                      <div className="product-orb"/>
+                      <img src={p.image} alt={`${p.title} ${p.model}`} loading="lazy"/>
+                      <span className="details-arrow"><Icon name="arrow"/></span>
                     </div>
-                  </div>
+                    <div className="product-info">
+                      <span className="product-category">{p.category}</span>
+                      <h3>{p.title}</h3>
+                      <p className="product-model">{p.model}</p>
+                      <div className="chips">{p.tags.map(tag => <span key={tag}>{tag}</span>)}</div>
+                      <div className="product-actions-row">
+                        <span className="view-details">View details</span>
+                        <span className="current-price-label">Ask for current price</span>
+                      </div>
+                    </div>
+                  </button>
+                  <a className="product-whatsapp" href={productWhatsApp(p)} target="_blank" rel="noreferrer">
+                    <Icon name="phone" size={17}/> Ask price on WhatsApp
+                  </a>
                 </article>
               ))}
             </div>
@@ -285,25 +300,25 @@ function App() {
             <div className="section-top" data-reveal>
               <div>
                 <p className="eyebrow">AB Electronics showroom</p>
-                <h2>This is where your real shop photos create the trust.</h2>
+                <h2>Visit AB Electronics in Multan</h2>
               </div>
               <p>
-                Replace the placeholders with your storefront and interior photos. The hero can also use the strongest store image.
+                See the real showroom, browse the appliance displays and contact the store before your visit.
               </p>
             </div>
 
             <div className="showroom-collage" data-reveal>
               <figure className="shot shot-main">
-                <img src="/shop/shop-front.svg" alt="AB Electronics storefront placeholder"/>
-                <figcaption><span>01</span> Storefront</figcaption>
+                <img src={shopAsset("storefront-main.webp")} alt="AB Electronics storefront"/>
+                <figcaption><span>01</span> AB Electronics storefront</figcaption>
               </figure>
               <figure className="shot shot-side-a">
-                <img src="/shop/shop-inside-1.svg" alt="AB Electronics showroom placeholder"/>
-                <figcaption><span>02</span> Appliance floor</figcaption>
+                <img src={shopAsset("showroom-wide.webp")} alt="Inside AB Electronics showroom"/>
+                <figcaption><span>02</span> Inside the showroom</figcaption>
               </figure>
               <figure className="shot shot-side-b">
-                <img src="/shop/shop-inside-2.svg" alt="AB Electronics showroom placeholder"/>
-                <figcaption><span>03</span> Inside the store</figcaption>
+                <img src={shopAsset("ac-wall.webp")} alt="Inside AB Electronics showroom"/>
+                <figcaption><span>03</span> Haier AC display</figcaption>
               </figure>
               <div className="showroom-card">
                 <Icon name="spark" size={26}/>
@@ -323,19 +338,86 @@ function App() {
         </section>
 
         <section className="section contact" id="contact">
-          <div className="wrap contact-panel" data-reveal>
-            <div className="contact-grid-lines"/>
-            <div>
-              <p className="eyebrow light">AB Electronics</p>
-              <h2>See a model you like? Confirm it with the store.</h2>
-              <p>Add your WhatsApp, phone, address and Google Maps link here when you send them.</p>
+          <div className="wrap contact-layout" data-reveal>
+            <div className="contact-panel">
+              <div className="contact-grid-lines"/>
+              <div className="contact-copy">
+                <p className="eyebrow light">AB Electronics Haier Store</p>
+                <h2>Price, stock or model question?</h2>
+                <p>Contact the store directly for the latest product price and availability.</p>
+
+                <div className="store-details">
+                  <div>
+                    <span>Phone / WhatsApp</span>
+                    <strong>{displayPhone}</strong>
+                  </div>
+                  <div>
+                    <span>Address</span>
+                    <strong>{shopAddress}</strong>
+                  </div>
+                </div>
+              </div>
+
+              <div className="contact-buttons">
+                <a className="button white" href={whatsappHref} target="_blank" rel="noreferrer">
+                  <Icon name="phone"/> WhatsApp
+                </a>
+                <a className="button outline" href={telHref}>
+                  <Icon name="phone"/> Call store
+                </a>
+                <a className="button outline" href={mapsHref} target="_blank" rel="noreferrer">
+                  <Icon name="pin"/> Get directions
+                </a>
+              </div>
             </div>
-            <div className="contact-buttons">
-              <a className="button white" href={whatsappHref}><Icon name="phone"/> WhatsApp / Call</a>
-              <a className="button outline" href="#showroom"><Icon name="pin"/> View showroom</a>
+
+            <div className="map-card">
+              <iframe
+                title="AB Electronics Haier Store location"
+                src={mapsEmbed}
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+              />
             </div>
           </div>
         </section>
+
+        {selectedProduct && (
+          <div className="product-modal-backdrop" role="presentation" onClick={() => setSelectedProduct(null)}>
+            <section className="product-modal" role="dialog" aria-modal="true" aria-label={`${selectedProduct.model} details`} onClick={(e) => e.stopPropagation()}>
+              <button className="modal-close" type="button" onClick={() => setSelectedProduct(null)} aria-label="Close product details">
+                <Icon name="close"/>
+              </button>
+
+              <div className="modal-product-image">
+                <img src={selectedProduct.image} alt={`${selectedProduct.title} ${selectedProduct.model}`}/>
+              </div>
+
+              <div className="modal-product-copy">
+                <span className="product-category">{selectedProduct.category}</span>
+                <h2>{selectedProduct.title}</h2>
+                <p className="modal-model">{selectedProduct.model}</p>
+
+                <div className="modal-chips">
+                  {selectedProduct.tags.map((tag) => <span key={tag}>{tag}</span>)}
+                </div>
+
+                <div className="modal-note">
+                  Current prices can change, so AB Electronics confirms the latest price and stock directly.
+                </div>
+
+                <div className="modal-actions">
+                  <a className="button modal-whatsapp" href={productWhatsApp(selectedProduct)} target="_blank" rel="noreferrer">
+                    <Icon name="phone"/> Ask price on WhatsApp
+                  </a>
+                  <a className="button modal-call" href={telHref}>
+                    Call {displayPhone}
+                  </a>
+                </div>
+              </div>
+            </section>
+          </div>
+        )}
       </main>
 
       <footer>
@@ -344,7 +426,7 @@ function App() {
             <span className="identity-badge">AB</span>
             <span className="identity-copy"><strong>AB Electronics</strong><small>Haier Home Appliances</small></span>
           </div>
-          <p>Storefront concept for AB Electronics. Product information should be verified before publication.</p>
+          <p>AB Electronics Haier Store · Old Shuja Abad Rd, opposite PSO Pump, Shershah Town, Multan.</p>
           <a href="#home">Back to top ↑</a>
         </div>
       </footer>
