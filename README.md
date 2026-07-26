@@ -1,39 +1,42 @@
-# AB Electronics — Location Fix V6
+# AB Electronics — Product Image Fix V7
 
-This is the full V5 website plus a corrected store-location implementation.
+Full project package.
 
-## What was wrong
+## Problem fixed
 
-The previous embedded map used:
+On mobile, tall refrigerator/freezer product images were visually crossing the divider and overlapping product text.
 
-`q=place_id:ChIJx29E74wxOzkR9unHZnPTohE`
+V7 normalizes every dynamically synced Haier image:
 
-inside a normal Google Maps iframe URL. That can resolve to the world map instead of the business.
+- fixed product image frame
+- overflow hidden
+- image centered
+- maximum width/height instead of stretched `width:100%; height:100%`
+- product body is a separate opaque layer
+- portrait products automatically use narrower sizing
+- landscape products automatically use wider sizing
+- homepage featured products fixed
+- Products catalog fixed
+- related product cards fixed
+- category product images fixed
+- individual Product Details image fixed
 
-## V6 fix
+### Mobile frame sizes
 
-The embedded map now searches the full verified business name + full address:
+- normal phone: 220px product image area
+- <=390px: 205px
+- <=345px: 190px
 
-**AB Electronics Haier Store**  
-Old Shuja Abad Rd, opposite PSO Pump, Shershah Town, Multan, Pakistan
-
-The "Get Directions" / "Open exact store pin" links still use the exact Google Place ID:
-
-`ChIJx29E74wxOzkR9unHZnPTohE`
-
-So:
-- embedded map gets an address-based close-up view
-- directions button targets the exact Google business listing
-- no API key is required
+The product itself is centered inside that frame with safe whitespace.
 
 ## Deploy
 
-Keep the hidden `.git` folder, replace the rest with this package, then:
+Keep your hidden `.git` folder and replace all other project files with this package.
 
 ```powershell
 git add -A
-git commit -m "Fix exact AB Electronics map location"
+git commit -m "Normalize all product images on mobile"
 git push
 ```
 
-Keep GitHub Pages Source set to **GitHub Actions**.
+GitHub Pages Source remains **GitHub Actions**.

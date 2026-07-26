@@ -20,6 +20,20 @@ function modelFor(p){
   if(!m || m===p.name || m===p.officialTitle) return "";
   return m;
 }
+
+function normalizeProductImageFrames(root=document){
+  $qa(".product-img img, .detail-image img, .category-showcase-media img", root).forEach(img=>{
+    const apply=()=>{
+      const w=img.naturalWidth||1, h=img.naturalHeight||1;
+      img.classList.toggle("product-portrait", h/w > 1.25);
+      img.classList.toggle("product-landscape", w/h > 1.35);
+      img.classList.toggle("product-squareish", h/w <= 1.25 && w/h <= 1.35);
+    };
+    if(img.complete) apply();
+    else img.addEventListener("load",apply,{once:true});
+  });
+}
+
 function productCard(p){
   const title=titleFor(p), name=nameFor(p), model=modelFor(p), tags=(p.highlights||[]).slice(0,3);
   return `<article class="product-card">
@@ -72,7 +86,7 @@ function navSetup(){
 function initHome(){
   const featured=$q("#featuredProducts");
   if(featured){
-    featured.innerHTML=PRODUCTS.slice(0,8).map(productCard).join("");
+    featured.innerHTML=PRODUCTS.slice(0,8).map(productCard).join(""); normalizeProductImageFrames(featured);
     $qa(".product-card",featured).forEach((card,i)=>{card.classList.add("reveal-card");card.style.transitionDelay=`${Math.min(i,7)*65}ms`});
   }
 
@@ -96,7 +110,7 @@ function initHome(){
         <div class="category-showcase-body"><span class="category-showcase-count">${items.length} model${items.length===1?'':'s'}</span><h3>${cat}</h3><p>${descriptions[cat]||'Browse current Haier models.'}</p><b>Browse category →</b></div>
       </article>`;
     }).join("");
-    $qa("[data-category]",categoryGrid).forEach(el=>el.addEventListener("click",()=>location.href=`products.html?category=${encodeURIComponent(el.dataset.category)}`));
+    normalizeProductImageFrames(categoryGrid); $qa("[data-category]",categoryGrid).forEach(el=>el.addEventListener("click",()=>location.href=`products.html?category=${encodeURIComponent(el.dataset.category)}`));
   }
 
   // HERO RULE:
@@ -268,7 +282,7 @@ function initProducts(){
       const hay=`${p.officialTitle||""} ${p.model||""} ${p.name||""} ${p.category||""} ${(p.highlights||[]).join(" ")}`.toLowerCase();
       return (category==="All"||p.category===category)&&(!term||hay.includes(term));
     });
-    grid.innerHTML=items.map(productCard).join("");
+    grid.innerHTML=items.map(productCard).join(""); normalizeProductImageFrames(grid);
     count.textContent=`${items.length} product${items.length===1?"":"s"}`;
     $qa("[data-cat]",list).forEach(b=>b.classList.toggle("active",b.dataset.cat===category));
   }
@@ -299,6 +313,6 @@ function initProduct(){
       <p class="notice">Model name and image are based on Haier Pakistan's current catalog. Final stock, current price, warranty card and availability should be confirmed with AB Electronics before purchase.</p>
     </div>
   </div>`;
-  const related=$q("#relatedProducts");if(related) related.innerHTML=PRODUCTS.filter(x=>x.category===p.category&&x.id!==p.id).slice(0,4).map(productCard).join("");
+  normalizeProductImageFrames(root); const related=$q("#relatedProducts");if(related){ related.innerHTML=PRODUCTS.filter(x=>x.category===p.category&&x.id!==p.id).slice(0,4).map(productCard).join(""); normalizeProductImageFrames(related); }
 }
 document.addEventListener("DOMContentLoaded",()=>{navSetup();initHome();initProducts();initProduct()});
