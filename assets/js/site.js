@@ -112,8 +112,8 @@ function initHome(){
       primaryText:"See Showroom",
       primaryHref:"about.html",
       secondaryText:"Get Directions",
-      secondaryHref:"contact.html",
-      fit:"cover"
+      secondaryHref:"https://www.google.com/maps/search/?api=1&query=AB%20ELECTRONICS%20HAIER%20STORE&query_place_id=ChIJx29E74wxOzkR9unHZnPTohE",
+      fit:"cover", position:"center 52%"
     },
     {
       kicker:"Haier Air Conditioners",
@@ -125,7 +125,7 @@ function initHome(){
       primaryHref:"products.html?category=Air%20Conditioners",
       secondaryText:"Ask on WhatsApp",
       secondaryHref:"https://wa.me/923077568769?text=Hi%20AB%20Electronics%2C%20please%20share%20current%20Haier%20AC%20prices%20and%20availability.",
-      fit:"cover"
+      fit:"cover", position:"center 24%"
     },
     {
       kicker:"Haier Refrigerators",
@@ -137,7 +137,7 @@ function initHome(){
       primaryHref:"products.html?category=Refrigerators",
       secondaryText:"Ask on WhatsApp",
       secondaryHref:"https://wa.me/923077568769?text=Hi%20AB%20Electronics%2C%20please%20share%20current%20Haier%20refrigerator%20prices%20and%20availability.",
-      fit:"cover"
+      fit:"cover", position:"center 36%"
     },
     {
       kicker:"Haier Washing Machines",
@@ -149,7 +149,7 @@ function initHome(){
       primaryHref:"products.html?category=Washing%20Machines",
       secondaryText:"Ask on WhatsApp",
       secondaryHref:"https://wa.me/923077568769?text=Hi%20AB%20Electronics%2C%20please%20share%20current%20Haier%20washing%20machine%20prices%20and%20availability.",
-      fit:"cover"
+      fit:"cover", position:"center 45%"
     },
     {
       kicker:"Haier LED TVs",
@@ -161,7 +161,7 @@ function initHome(){
       primaryHref:"products.html?category=LED%20TVs",
       secondaryText:"Ask on WhatsApp",
       secondaryHref:"https://wa.me/923077568769?text=Hi%20AB%20Electronics%2C%20please%20share%20current%20Haier%20TV%20prices%20and%20availability.",
-      fit:"cover"
+      fit:"cover", position:"center 38%"
     },
     {
       kicker:"Haier Kitchen Appliances",
@@ -173,7 +173,7 @@ function initHome(){
       primaryHref:"products.html?category=Microwave%20Ovens",
       secondaryText:"Ask on WhatsApp",
       secondaryHref:"https://wa.me/923077568769?text=Hi%20AB%20Electronics%2C%20please%20share%20current%20Haier%20microwave%20and%20kitchen%20appliance%20prices.",
-      fit:"cover"
+      fit:"cover", position:"center 42%"
     }
   ];
   const image=$q("#heroSlideImage"), kicker=$q("#heroKicker"), title=$q("#heroTitle"), desc=$q("#heroDescription"), label=$q("#heroMediaLabel"), primary=$q("#heroPrimary"), secondary=$q("#heroSecondary"), media=$q("#heroSlideMedia"), dots=$q("#heroDots"), status=$q("#heroSlideStatus"), shell=$q(".hero-slider-shell");
@@ -188,7 +188,7 @@ function initHome(){
       setTimeout(()=>{
         image.src=s.image;
         image.alt=s.title;
-        image.className=s.fit||"cover";
+        image.className=s.fit||"cover"; image.style.objectPosition=s.position||"center";
         kicker.textContent=s.kicker;
         title.textContent=s.title;
         desc.textContent=s.description;
