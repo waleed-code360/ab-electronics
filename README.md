@@ -1,52 +1,37 @@
-# AB Electronics — Full Live Haier Catalog
+# AB Electronics Store Reset
 
-This keeps the current multi-page store design and upgrades the catalog so GitHub Pages builds from the **current Haier Pakistan category listings**.
+This is a full static multi-page website — not a one-page landing page.
 
-## What happens on every GitHub Pages deployment
+Pages:
+- index.html
+- products.html
+- product.html
+- about.html
+- contact.html
 
-The workflow opens the official Haier Pakistan household category pages:
+Product cards use exact Haier Pakistan product images that were individually verified.
+Showroom photos are only used on showroom/about/contact sections.
 
-- Refrigerators
-- Freezers
-- Washing Machines
-- Air Conditioners
-- LED TVs
-- Small Appliances
-- Kitchen Appliances
-- Microwave Ovens
+## Deploy
+Keep your existing `.git` folder. Replace the old visible project files with this folder contents, then:
 
-It repeatedly clicks **Load more**, captures every current product link, uses the **exact title from the official product card**, finds the **exact official card image**, downloads that image locally into `assets/products/`, and regenerates `assets/js/data.js` before deployment.
-
-The deployment refuses to publish if the live scrape finds fewer than 80 products or if a product is missing an image. That prevents a partial/bad catalog from silently going live.
-
-## Replace your current project
-
-Keep your hidden `.git` folder. Replace the visible site files with this package, then:
-
-```bash
 git add -A
-git commit -m "Sync full Haier Pakistan product catalog"
+git commit -m "Reset AB Electronics as full catalog website"
 git push
+
+GitHub Pages Source should be GitHub Actions.
+
+## Important
+This reset deliberately contains only products whose exact image URLs were verified during preparation.
+Do not add a model with another model's image just to increase the product count.
+
+
+## Cache fix
+
+Every deployment renames the generated catalog JS using the current Git commit SHA. Example:
+
+```text
+assets/js/data-f969e4e.js
 ```
 
-Then open GitHub **Actions**. The workflow is:
-
-`Deploy AB Electronics with Live Haier Catalog`
-
-When it is green, the live `products.html` catalog has been generated from Haier Pakistan's current listings.
-
-## Local catalog sync (optional)
-
-If you want the generated catalog on your PC before pushing:
-
-```bash
-npm install
-npx playwright install chromium
-npm run sync:haier
-```
-
-Then open `haier-sync-summary.json` to see exact category counts.
-
-## Prices
-
-No fixed prices are published. Every product keeps the AB Electronics WhatsApp price enquiry flow.
+The HTML is rewritten during deployment to reference that unique file. This prevents GitHub Pages / browser cache from showing the old 13-product starter catalog after the live scraper has generated the full catalog.
