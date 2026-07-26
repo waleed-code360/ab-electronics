@@ -746,3 +746,68 @@ img{user-select:none;-webkit-user-drag:none}
     padding-bottom:max(18px,env(safe-area-inset-bottom));
   }
 }
+
+
+/* =========================================================
+   V6 — LOCATION MAP FIX
+   Old place_id iframe removed. Exact address query + cleaner UI.
+   ========================================================= */
+
+.exact-map-card{
+  display:flex;
+  flex-direction:column;
+  overflow:hidden;
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:18px;
+  box-shadow:0 10px 30px rgba(20,30,45,.07);
+}
+.exact-map-card iframe{
+  flex:1 1 auto;
+  width:100%;
+  min-height:430px;
+  border:0;
+  background:#eef2f5;
+}
+.map-fallback{
+  flex:0 0 auto;
+  min-height:48px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:11px 16px;
+  background:#fff;
+  color:var(--blue);
+  border-top:1px solid var(--line);
+  font-size:12px;
+  font-weight:900;
+  text-align:center;
+}
+.map-fallback:hover{
+  background:#eef8ff;
+}
+.home-location-grid .exact-map-card iframe{
+  height:auto;
+  min-height:430px;
+}
+.contact-grid .exact-map-card iframe{
+  min-height:430px;
+}
+
+@media(max-width:680px){
+  .home-location-grid .exact-map-card,
+  .contact-grid .exact-map-card{
+    min-height:390px;
+    border-radius:15px;
+  }
+  .home-location-grid .exact-map-card iframe,
+  .contact-grid .exact-map-card iframe{
+    height:345px;
+    min-height:345px;
+  }
+  .map-fallback{
+    min-height:45px;
+    font-size:11px;
+    padding:10px 12px;
+  }
+}

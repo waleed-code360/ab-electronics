@@ -1,62 +1,39 @@
-# AB Electronics — Client Ready Mobile V5
+# AB Electronics — Location Fix V6
 
-Full website package.
+This is the full V5 website plus a corrected store-location implementation.
 
-## V5 fixes
+## What was wrong
 
-### Mobile hero
-The slider no longer places image above text and then changes document height.
-On phones, the hero is one fixed-size photo card with the text over the bottom gradient.
+The previous embedded map used:
 
-That means:
-- no vertical jump when slides change
-- no image moving up/down
-- consistent button position
-- showroom photo remains the hero
-- swipe still works on iOS/Android
+`q=place_id:ChIJx29E74wxOzkR9unHZnPTohE`
 
-### Exact location
-Google Maps now uses the verified Google business place ID:
+inside a normal Google Maps iframe URL. That can resolve to the world map instead of the business.
+
+## V6 fix
+
+The embedded map now searches the full verified business name + full address:
+
+**AB Electronics Haier Store**  
+Old Shuja Abad Rd, opposite PSO Pump, Shershah Town, Multan, Pakistan
+
+The "Get Directions" / "Open exact store pin" links still use the exact Google Place ID:
 
 `ChIJx29E74wxOzkR9unHZnPTohE`
 
-Business:
-**AB ELECTRONICS HAIER STORE**
-Old Shuja Abad Rd, opposite PSO Pump, Shershah Town, Multan
-0307 7568769
+So:
+- embedded map gets an address-based close-up view
+- directions button targets the exact Google business listing
+- no API key is required
 
-The home page now also has a full location section with:
-- storefront photo
-- full address
-- Call
-- WhatsApp
-- Get Directions
-- embedded Google map
-- fallback "Open in Google Maps" link
+## Deploy
 
-### Mobile polish
-- compact two-row mobile header
-- sticky mobile navigation
-- fixed hero height
-- equal category card heights
-- equal product image/card heights
-- consistent gallery heights
-- horizontal catalog category pills
-- clean product detail spacing
-- iOS safe-area support
-- 16px search inputs to prevent Safari zoom
-- reduced-motion support preserved
-
-## Deployment
-
-Keep your hidden `.git` directory.
-Replace the other project files with this package.
+Keep the hidden `.git` folder, replace the rest with this package, then:
 
 ```powershell
 git add -A
-git commit -m "Fix mobile UX and exact store location"
+git commit -m "Fix exact AB Electronics map location"
 git push
 ```
 
-GitHub Pages:
-**Settings → Pages → Source = GitHub Actions**
+Keep GitHub Pages Source set to **GitHub Actions**.
