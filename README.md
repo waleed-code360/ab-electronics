@@ -1,37 +1,38 @@
-# AB Electronics Store Reset
+# AB Electronics — Polished Haier Catalog V2
 
-This is a full static multi-page website — not a one-page landing page.
+Full multi-page GitHub Pages website for AB Electronics Haier Store, Multan.
 
-Pages:
-- index.html
-- products.html
-- product.html
-- about.html
-- contact.html
+## What changed in this version
 
-Product cards use exact Haier Pakistan product images that were individually verified.
-Showroom photos are only used on showroom/about/contact sections.
+- Product names are no longer taken from the entire category-card text.
+- During deployment, every Haier product page is opened and the site reads:
+  - the product family/name from the official H1,
+  - the exact model from the official Haier Pakistan page title,
+  - the first official headline feature labels,
+  - the exact official product image.
+- Deployment refuses to publish if a product is missing a clean name/model/image.
+- Homepage hero is now an auto-changing slider:
+  - AB Electronics storefront,
+  - Air Conditioners,
+  - Refrigerators,
+  - Washing Machines,
+  - LED TVs.
+- Hero copy changes with each slide.
+- Removed the old 4-item service strip completely.
+- Upgraded Shop by Category to product-image cards with live model counts.
+- Added TCL-inspired left/right/fade-up entrance animations and staggered card reveals.
+- Full catalog sync still exhausts Haier Pakistan's Load more controls at deployment.
 
 ## Deploy
-Keep your existing `.git` folder. Replace the old visible project files with this folder contents, then:
 
+Keep the hidden `.git` directory in your existing repo, replace the visible project files with this package, then:
+
+```bash
 git add -A
-git commit -m "Reset AB Electronics as full catalog website"
+git commit -m "Polish AB Electronics hero categories and product names"
 git push
-
-GitHub Pages Source should be GitHub Actions.
-
-## Important
-This reset deliberately contains only products whose exact image URLs were verified during preparation.
-Do not add a model with another model's image just to increase the product count.
-
-
-## Cache fix
-
-Every deployment renames the generated catalog JS using the current Git commit SHA. Example:
-
-```text
-assets/js/data-f969e4e.js
 ```
 
-The HTML is rewritten during deployment to reference that unique file. This prevents GitHub Pages / browser cache from showing the old 13-product starter catalog after the live scraper has generated the full catalog.
+GitHub Pages Source should remain **GitHub Actions**.
+
+The deployment workflow builds a fresh Haier Pakistan catalog, downloads product images locally, cache-busts the generated JS, and deploys the final static site.
