@@ -1,38 +1,21 @@
-# AB Electronics — Polished Haier Catalog V2
+# AB Electronics Polished V3 — REAL FIX
 
-Full multi-page GitHub Pages website for AB Electronics Haier Store, Multan.
+This is the corrected full project. The previous Polished V2 ZIP accidentally still contained the old homepage markup.
 
-## What changed in this version
+V3 genuinely changes the homepage:
+- rotating showroom / AC / refrigerator / washing machine / TV hero
+- old four-item service strip removed
+- enhanced dynamic category cards with actual synced product images and live counts
+- left/right/fade-up animations
+- clean product family name and exact model separated by visiting each official Haier product page during deployment
+- CSS/JS/data assets cache-busted on every deploy
 
-- Product names are no longer taken from the entire category-card text.
-- During deployment, every Haier product page is opened and the site reads:
-  - the product family/name from the official H1,
-  - the exact model from the official Haier Pakistan page title,
-  - the first official headline feature labels,
-  - the exact official product image.
-- Deployment refuses to publish if a product is missing a clean name/model/image.
-- Homepage hero is now an auto-changing slider:
-  - AB Electronics storefront,
-  - Air Conditioners,
-  - Refrigerators,
-  - Washing Machines,
-  - LED TVs.
-- Hero copy changes with each slide.
-- Removed the old 4-item service strip completely.
-- Upgraded Shop by Category to product-image cards with live model counts.
-- Added TCL-inspired left/right/fade-up entrance animations and staggered card reveals.
-- Full catalog sync still exhausts Haier Pakistan's Load more controls at deployment.
-
-## Deploy
-
-Keep the hidden `.git` directory in your existing repo, replace the visible project files with this package, then:
+Replace all visible project files while keeping your hidden `.git` folder, then:
 
 ```bash
 git add -A
-git commit -m "Polish AB Electronics hero categories and product names"
+git commit -m "Apply real polished homepage and clean product names"
 git push
 ```
 
-GitHub Pages Source should remain **GitHub Actions**.
-
-The deployment workflow builds a fresh Haier Pakistan catalog, downloads product images locally, cache-busts the generated JS, and deploys the final static site.
+GitHub Pages source: GitHub Actions.
