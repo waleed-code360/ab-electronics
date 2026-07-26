@@ -1,4 +1,0 @@
-User-agent: *
-Allow: /
-
-Sitemap: https://waleed-code360.github.io/ab-electronics/sitemap.xml
