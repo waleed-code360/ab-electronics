@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800">
+  <defs>
+    <linearGradient id="g" x1="0" x2="1" y1="0" y2="1">
+      <stop stop-color="#d9ecff"/>
+      <stop offset="1" stop-color="#f7fbff"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="800" fill="url(#g)"/>
+  <rect x="115" y="145" width="970" height="510" rx="34" fill="#ffffff" opacity=".78"/>
+  <rect x="155" y="205" width="890" height="96" rx="18" fill="#0b6bd3" opacity=".9"/>
+  <text x="600" y="266" text-anchor="middle" font-family="Arial, sans-serif" font-size="46" font-weight="700" fill="white">AB ELECTRONICS</text>
+  <rect x="175" y="340" width="280" height="245" rx="20" fill="#eaf3fb"/>
+  <rect x="470" y="340" width="280" height="245" rx="20" fill="#eaf3fb"/>
+  <rect x="765" y="340" width="260" height="245" rx="20" fill="#eaf3fb"/>
+  <text x="600" y="715" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" fill="#49627b">Replace with your real shop photo</text>
+</svg>
